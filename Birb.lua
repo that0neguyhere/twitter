@@ -16,7 +16,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/rouxhaver/random-sh-t
 	legends never die
 	unless they get patched
 
-	-gh 13421786478,13421911402,13421828828,13421768871,13415165827,5674298865,5674299814,5132802731
+	-gh 13421786478,13421911402,13421828828,13421768871,13415165827,253151806
 ]]
 
 --findfirstchildofclass faster than getservice
@@ -647,9 +647,6 @@ local function reanimate()
 
 	local accessorylimbs={
 		{meshid="13421774668",textureid="13415110780",C0=cf_0,Name="Torso"},
-		{meshid="5673931939",textureid="5673921683",C0=cf(0.5,0.4, -0.5)*angles(rad(-180),rad(0),rad(0)),Name="Torso"},
-		{meshid="5673931939",textureid="5673921282",C0=cf(-0.5,0.4, -0.5)*angles(rad(-180),rad(0),rad(0)),Name="Torso"},
-		{meshid="4948672433",textureid="5132781531",C0=cf(-0,0.5, -0.99)*angles(rad(-180),rad(0),rad(0)),Name="Torso"},
 		{meshid="13421705040",textureid="13415112383",C0=angles(rad(116),rad(4),rad(22)),Name="Left Arm"},
 		{meshid="13415096670",textureid="13415112383",C0=angles(rad(112),rad(-13.5),rad(-22)),Name="Right Arm"},
 		{meshid="13421798868",textureid="13415112383",C0=angles(rad(47.5),rad(40),rad(24.5)),Name="Left Leg"},
