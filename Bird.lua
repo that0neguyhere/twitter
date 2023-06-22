@@ -644,13 +644,14 @@ local function reanimate()
 		return nil
 	end
 
-local accessorylimbs={
-        {meshid="13421774668",textureid="13415110780",C0=cf_0,Name="Torso"},
-        {meshid="12344207333",textureid="12344207341",C0=angles(rad(90),rad(0),rad(0)),Name="Left Arm"},
-        {meshid="12344206657",textureid="12344206675",C0=angles(rad(90),rad(0),rad(0)),Name="Right Arm"},
-        {meshid="11263221350",textureid="11263219250",C0=angles(rad(0),rad(0),rad(90)),Name="Left Leg"},
-        {meshid="11159370334",textureid="11159284657",C0=angles(rad(0),rad(0),rad(90)),Name="Right Leg"}
-    }
+	local accessorylimbs={
+		{meshid="12876378389",textureid="12876423855",C0=cf(0,0.1, 0)*angles(rad(0),rad(0),rad(0)),Name="Head"},
+		{meshid="13421774668",textureid="13415110780",C0=cf_0,Name="Torso"},
+		{meshid="12867814848",textureid="12867874342",C0=angles(rad(0),rad(90),rad(0)),Name="Left Arm"},
+		{meshid="12867814848",textureid="12794084950",C0=angles(rad(0),rad(0),rad(0)),Name="Right Arm"},
+		{meshid="12867814848",textureid="12794082919",C0=angles(rad(0),rad(0),rad(0)),Name="Left Leg"},
+		{meshid="12867814848",textureid="12867873138",C0=angles(rad(0),rad(-90),rad(0)),Name="Right Leg"}
+	}
 
 	for i=1,#accessorylimbs do
 		local v=accessorylimbs[i]
