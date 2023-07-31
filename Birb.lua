@@ -1,6 +1,6 @@
 game.StarterGui:SetCore("SendNotification",  {
 	Title = "Smug Notification";
-	Text = "DRIPPERS!1!!1!#6196";
+	Text = "drippersisfunni";
 	Icon = "rbxthumb://type=Asset&id=9945382118&w=150&h=150"})
 
 local character = game.Players.LocalPlayer.Character
