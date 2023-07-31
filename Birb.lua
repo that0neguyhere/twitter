@@ -263,7 +263,7 @@ lbl("low effort ui obviously")--]]
 local flingmode=2
 local allowshiftlock=true
 local ctrltp=true
-local discharscripts=true
+local discharscripts=false
 local removebparts=false
 
 local function reanimate()
