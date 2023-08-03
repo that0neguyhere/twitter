@@ -260,11 +260,10 @@ end
 lbl("by MyWorld")
 lbl("low effort ui obviously")--]]
 
-local flingmode=2
-local allowshiftlock=true
-local ctrltp=true
-local discharscripts=false
-local removebparts=false
+local allowshiftlock=nil
+local ctrltp=nil
+local discharscripts=nil
+local removebparts=nil
 
 local function reanimate()
 	--[[
@@ -285,59 +284,25 @@ local function reanimate()
 	local jumpPower = 50 --your jump power (can be changed at runtime)
 	local allowshiftlock = allowshiftlock --allows the user to use shiftlock (can be changed at runtime)
 	local gravity = 196.2 --how fast the characters velocity increases while falling (can be changed at runtime)
-	local simrad = 1000 --sets simulation radius to this with sethiddenproperty (nil to disable)
-    local loadtime = plrs.RespawnTime --anti-respawn delay
-	--the fling function
-	--usage: fling(target, duration, velocity)
-	--target can be set to: basePart, CFrame, Vector3, character model or humanoid (flings at mouse.Hit if argument not provided)
-	--duration (fling time in seconds) can be set to a number or a string convertable to a number (0.5s if not provided)
-	--velocity (fling part rotation velocity) can be set to a vector3 value (uses defaultflingvel if not provided)
-	local defaultflingvel=v3(20000,20000,20000) --this is the velocity used for flinging if its not provided to the fling function
+	local simrad = simrad --sets simulation radius to this with sethiddenproperty if its set to a number
 	local ctrlclicktp = ctrltp --makes you teleport where u point ur mouse cursor at when click and hold ctrl down
-	local clickfling = flingmode --click fling mode
-	--false - click fling disabled
-	--0 - click fling without prediction
-	--1 - with prediction if pointing at a character, otherwise not flinging
-	--2 - with prediction if pointing at a character, otherwise no prediction
-	local maxflingtrsp = 1 --max transparency of the fling part (if its above this it will be set to this)
 
 	local c=lp.Character
 	if not c then return end
 	if not c:IsDescendantOf(ws) then return end
-	local c1=c
-	c.AncestryChanged:Connect(function()
-		if c1 then
-			if c1:IsDescendantOf(ws) then
-				c=c1
-			else
-				c=nil
-			end
-		end
-	end)
-
+	
+	if stopreanimate() then
+		return
+	end
+	
 	local hum=c:FindFirstChildOfClass("Humanoid")
 	local rootpart=gp(c,"HumanoidRootPart","BasePart") or gp(c,"Torso","BasePart") or gp(c,"UpperTorso","BasePart") or (hum and hum.RootPart) or timegp(c,"HumanoidRootPart","BasePart",0.5) or c:FindFirstChildWhichIsA("BasePart")
 	if not rootpart then return end
 
-	reclaim=reclaim and (c.PrimaryPart or rootpart)
 	R15toR6=R15toR6 and hum and (hum.RigType==e.HumanoidRigType.R15)
-	local shp=getfenv().sethiddenproperty
-	simrad=shp and tonumber(simrad)
+	simrad = (type(simrad)=="number") and (type(shp)=="function") and simrad
 
 	local flingparts={}
-	local children=c:GetChildren()
-	for i=1,#children do
-		local v=children[i]
-		if v:IsA("Tool") then
-			local des=v:GetDescendants()
-			for i=1,#des do
-				local v=des[i]
-				if v:IsA("BasePart") and isServerInstance(v) then
-					tinsert(flingparts,v)
-				end
-			end
-		end
-	end
 	local cam=nil
 	--theres a way to have ws.currentcamera nil on heartbeat and still have the game run normally
 	local function refcam()
@@ -349,18 +314,6 @@ local function reanimate()
 	end
 	refcam()
 	local camcf=cam.CFrame
-	if not c then return end
-	lp.Character=nil
-	lp.Character=c
-	renderstepped:Once(function()
-		refcam()
-		cam.CFrame=camcf
-	end)
-	twait(loadtime)
-	refcam()
-	if not c then return end
-
-	camcf=cam.CFrame
 	local enumCamS=e.CameraType.Scriptable
 	local camt=cam.CameraType
 	local camcon0=nil
@@ -402,95 +355,123 @@ local function reanimate()
 
 	local fpdh=ws.FallenPartsDestroyHeight
 	novoid=novoid and (fpdh+1)
-
-	local cfr=rootpart.CFrame
-	if removebparts then
-		removebparts=cfr
-		cfr=(cfr-cfr.Position)+v3(mrandom(-10,10)*100000,fpdh+500,mrandom(-10,10)*100000)
-	end
-	local con=heartbeat:Connect(function()
-		if (not rootpart.Anchored) and (rootpart.ReceiveAge==0) then
-			local off=v3_010*sin(osclock()*32)
-			rootpart.CFrame=cfr+off
-			rootpart.Velocity=v3_010*25.1
-			rootpart.RotVelocity=off
-		end
-	end)
-	twait(0.5)
-	con:Disconnect()
-
-	if not c then
-		onnewcamera()
-		return 
-	end
-
-	if discharscripts then
-		local chi=c:GetChildren()
-		for i=1,#chi do
-			local v=chi[i]
-			if v:IsA("LocalScript") then
-				v.Disabled=true
+	
+	local function getMeshOfPart(v)
+		if typeof(v)=="Instance" then
+			if v:IsA("MeshPart") then
+				return v.MeshId, v.TextureID
+			else
+				v=v:FindFirstChildOfClass("SpecialMesh")
+				if v then
+					return v.MeshId, v.TextureId
+				end
 			end
 		end
+		return nil, nil
 	end
-
+	
 	local joints={}
 	local cframes={}
-	local lastpositions={}
-	local function ondes(v)
-		if antiragdoll and v:IsA("HingeConstraint") or v:IsA("BallSocketConstraint") then
-			v:Destroy()
-		elseif addPartsOnRun then
-			if v:IsA("JointInstance") then
-				tinsert(joints,{
-					Name=v.Name,
-					C0=v.C0,
-					C1=v.C1,
-					Part0=v.Part0,
-					Part1=v.Part1
-				})
+	local des=c:GetDescendants()
+	for i=1,#des do
+		local v=des[i]
+		if v:IsA("JointInstance") then
+			tinsert(joints,{
+				Name=v.Name,
+				C0=v.C0,
+				C1=v.C1,
+				Part0=v.Part0,
+				Part1=v.Part1
+			})
+		elseif v:IsA("BasePart") then
+			cframes[v]=v.CFrame
+		end
+	end
+	
+	local function makeplaceholder(v)
+		if typeof(v)~="Instance" then
+			return nil
+		end
+		if not v.Archivable then
+			v.Archivable=true
+		end
+		v=v:Clone()
+		local c=v:GetChildren()
+		for i=1,#c do
+			local v=c[i]
+			if v:IsA("SpecialMesh") then
+				v.Name=rs()
+				v:ClearAllChildren()
+			else
 				v:Destroy()
-			elseif v:IsA("BasePart") then
-				if isClientInstance(v) then
-					v={CFrame=v.CFrame,Name=v.Name,Anchored=true}
-				end
-				cframes[v]=v.CFrame
-				lastpositions[v]=v.Position
 			end
 		end
+		v.Name=rs()
+		v.Anchored=true
+		v.CanCollide=false
+		v.Transparency=0.25
+		v.Parent=ws
+		return v
 	end
-	if addPartsOnRun then
-		local des=c:GetDescendants()
-		for i=1,#des do
-			ondes(des[i])
+	
+	local function filterInstance(v)
+		local ins=v
+		if isClientInstance(v) then
+			v={CFrame=v.CFrame,Name=v.Name,Anchored=true}
+		else
+			local meshid,textureid=getMeshOfPart(v)
+			if meshid and (meshid~="") and textureid and (textureid~="") then
+				if placeholders then
+					v={CFrame=v.CFrame,Name=v.Name,Anchored=true,meshid=meshid,textureid=textureid,placeholder=makeplaceholder(v)}
+				else
+					v={CFrame=v.CFrame,Name=v.Name,Anchored=true,meshid=meshid,textureid=textureid}
+				end
+			else
+				v={CFrame=v.CFrame,Name=v.Name,Anchored=true}
+			end
 		end
-		c.DescendantAdded:Connect(ondes)
-	else
-		addPartsOnRun = true
-		local des=c:GetDescendants()
-		for i=1,#des do
-			ondes(des[i])
+		local check=ins~=v
+		while check do
+			check=false
+			for i,v1 in pairs(cframes) do
+				if i==ins then
+					cframes[ins]=nil
+					cframes[v]=v1
+					check=true
+					break
+				end
+			end
 		end
-		addPartsOnRun = false
-		c.DescendantAdded:Connect(ondes)
+		for i,v1 in pairs(joints) do
+			if v1.Part0==ins then
+				v1.Part0=v
+			elseif v1.Part1==ins then
+				v1.Part1=v
+			end
+		end
+		if rootpart==ins then
+			rootpart=v
+		end
+		return v
 	end
-
-	if removebparts then
-		cfr=removebparts
+	for i,v in pairs(joints) do
+		v.Part0=filterInstance(v.Part0)
+		v.Part1=filterInstance(v.Part1)
 	end
+	
+	local Yvel=0
+	local cfr=rootpart.CFrame
 	local pos=cfr.Position
 	local shiftlock=false
 	local firstperson=false
 	local xzvel=v3_0
-	local Yvel=0
 	local v3_0150=v3_010*1.5
 	local camoff=cf(v3_0,camcf.LookVector)
 	camoff=camoff-v3_001*(camcf.Position-(pos+v3_0150)).Magnitude
 
-	local refreshjoints=nil
-	refreshjoints=function(part,refreshed)
+	local refreshjointsinternal=nil
+	refreshjointsinternal=function(part,refreshed)
 		if not part then return end
-		refreshed=refreshed or {}
 		tinsert(refreshed,part)
 		for i,v in pairs(joints) do
 			local part0=v.Part0
@@ -498,15 +479,18 @@ local function reanimate()
 			if part1 and (part0==part) then
 				cframes[part1]=cframes[part]*v.C0*v.C1:Inverse()
 				if not tfind(refreshed,part1) then
-					refreshjoints(part1,refreshed)
+					refreshjointsinternal(part1,refreshed)
 				end
 			elseif part0 and (part1==part) then
 				cframes[part0]=cframes[part]*v.C1*v.C0:Inverse()
 				if not tfind(refreshed,part0) then
-					refreshjoints(part0,refreshed)
+					refreshjointsinternal(part0,refreshed)
 				end
 			end
 		end
+	end
+	local function refreshjoints(v)
+		refreshjointsinternal(v,{})
 	end
 
 	if R15toR6 then
@@ -595,7 +579,7 @@ local function reanimate()
 		makejoint(R6parts.rightLeg,"RightUpperLeg","LowerTorso")
 		makejoint(R6parts.torso,"LowerTorso","HumanoidRootPart")
 	end
-
+		
 	local function getPart(name,blacklist)
 		for i,v in pairs(cframes) do
 			if (i.Name==name) and not (blacklist and tfind(blacklist,i)) then
@@ -607,14 +591,9 @@ local function reanimate()
 
 	local function getPartFromMesh(meshid,textureid,blacklist)
 		for v,_ in pairs(cframes) do
-			if (type(v)~="table") and not (blacklist and tfind(blacklist,v)) then
-				if v:IsA("MeshPart") and sfind(v.MeshId,meshid) and sfind(v.TextureID,textureid) then 
+			if (type(v)=="table") and not (blacklist and tfind(blacklist,v)) then
+				if v.meshid and sfind(v.meshid,meshid) and sfind(v.textureid,textureid) then
 					return v
-				else
-					local m=v:FindFirstChildOfClass("SpecialMesh")
-					if m and sfind(m.MeshId,meshid) and sfind(m.TextureId,textureid) then
-						return v
-					end
 				end
 			end
 		end
