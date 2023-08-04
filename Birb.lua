@@ -174,7 +174,7 @@ local function reanimate()
 	local antiragdoll = true --removes instances that are usually used for ragdolling form your character
 	local addPartsOnRun = false --allows u to add more parts and joints to the simulation after it started
 	local R15toR6 = true --adds fake r6 parts and joints for animations if your character is r15
-	local walkSpeed = 16 --your walkspeed (can be changed at runtime)
+	local walkSpeed = 20 --your walkspeed (can be changed at runtime)
 	local jumpPower = 50 --your jump power (can be changed at runtime)
 	local allowshiftlock = true --allows the user to use shiftlock (can be changed at runtime)
 	local gravity = 196.2 --how fast the characters velocity increases while falling (can be changed at runtime)
