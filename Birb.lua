@@ -1,25 +1,29 @@
-game.StarterGui:SetCore("SendNotification",  {
-	Title = "Smug Notification";
-	Text = "drippersisfunni";
-	Icon = "rbxthumb://type=Asset&id=9945382118&w=150&h=150"})
-
 local character = game.Players.LocalPlayer.Character
 local sus = character.TwitterBird --name
 local handle =  sus.Handle
 local weld=handle.AccessoryWeld
 weld.C1=CFrame.new(0,0.9,-1.5)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/rouxhaver/random-sh-t/main/4eye's%20net-libary%20auto%20applier.lua"))()
-
 --[[
 	patchma hub by MyWorld
-	legends never die
-	unless they get patched
+	one last unpatch... 
 
-	-gh 13421786478,13421911402,13421828828,13421768871,13415165827,253151806
+    IDs of accessories for limbs:
+	14255556501,14255554762,14255549007,14255551310
+	or
+	12652786974,11159483910,11263254795,11159410305
+    
+    FOR TORSO USE ANY ACCESSORY THAT COVERS IT
+    (customization :smirk:)
+    
+    examples of accessories for torso:
+    13423624885,11502853991,14053485259,13779879140
+    or use the same stuff but different colors
+    
+    also 14255528083 gets aligned to torso
+    fits best with the first set of limbs
 ]]
 
---findfirstchildofclass faster than getservice
 local plrs=game:FindFirstChildOfClass("Players")
 local rs=game:FindFirstChildOfClass("RunService")
 local ws=game:FindFirstChildOfClass("Workspace")
@@ -45,9 +49,11 @@ local supper=string.upper
 local mrandom=math.random
 local clamp=math.clamp
 local sin=math.sin
+local cos=math.cos
 local abs=math.abs
 local rad=math.rad
 local tinsert=table.insert
+local tclear=table.clear
 local tfind=table.find
 local tunpack=table.unpack
 
@@ -144,157 +150,42 @@ end)
 local isServerInstance=function(i)
 	return not isClientInstance(i)
 end
+local shp=(((type(getfenv)=="function") and getfenv()) or {}).sethiddenproperty
 
---[[local i1=i("Frame") 
-local i2=i("Frame") 
-local i3=i("ScrollingFrame") 
-local i4=i("UIListLayout") 
-local i5=i("UIGradient") 
-local i6=i("TextLabel") 
-local i7=i("TextButton") 
-local i8=i("UIGradient") 
-local i9=i("ScreenGui") 
-i1.Active=true 
-i1.AnchorPoint=v2(0.5,0) 
-i1.BackgroundColor3=c3(1,1,1) 
-i1.BorderSizePixel=0 
-i1.Draggable=true 
-i1.Position=u2(0.5,0,0.5,-150) 
-i1.Selectable=true 
-i1.Size=u2(0,200,0,300) 
-i1.Name=rs() 
---i1.Parent=i9 
-i2.BackgroundColor3=c3(1,1,1) 
-i2.BorderSizePixel=0 
-i2.Position=u2(0,5,0,20) 
-i2.Size=u2(1,-10,1,-25) 
-i2.Name=rs() 
---i2.Parent=i1 
-i3.Active=true 
-i3.BackgroundTransparency=1 
-i3.BorderSizePixel=0 
-i3.Size=u2(1,-3,1,0) 
-i3.AutomaticCanvasSize=e.AutomaticSize.Y 
-i3.CanvasSize=u2(0,0,0,0) 
-i3.ScrollBarThickness=7 
-i3.Name=rs() 
---i3.Parent=i2 
-i4.Name=rs() 
---i4.Parent=i3 
-i4.SortOrder=e.SortOrder.LayoutOrder 
-i5.Name=rs() 
---i5.Parent=i2 
-i5.Color=cs({[1]=csk(0,c3(0.121569,0.121569,0.121569)),[2]=csk(1,c3(0.0705882,0.0705882,0.0705882))}) 
-i5.Rotation=90 
-i6.Font=e.Font.SourceSans 
-i6.FontSize=e.FontSize.Size18 
-i6.Text="patchma hub" 
-i6.TextColor3=c3(0,0,1) 
-i6.TextSize=16 
-i6.BackgroundTransparency=1 
-i6.BorderSizePixel=0 
-i6.Position=u2(0,1,0,1) 
-i6.Size=u2(1,-2,0,20) 
-i6.Name=rs() 
---i6.Parent=i1 
-i7.AnchorPoint=v2(1,0) 
-i7.BackgroundTransparency=1 
-i7.Position=u2(1,0,0,0) 
-i7.Size=u2(0,40,1,0) 
-i7.Name=rs() 
---i7.Parent=i6 
-i7.Font=e.Font.SourceSans 
-i7.FontSize=e.FontSize.Size18 
-i7.Text="-" 
-i7.TextColor3=c3(1,1,1) 
-i7.TextSize=16 
-i8.Name=rs() 
---i8.Parent=i1 
-i8.Color=cs({[1]=csk(0,c3(0,0,0)),[2]=csk(1,c3(0,0,0.584314))}) 
-i8.Rotation=90 
-i9.ZIndexBehavior=e.ZIndexBehavior.Sibling 
-i9.IgnoreGuiInset=true 
-i9.ResetOnSpawn=false 
-i9.Name=rs() 
-local min=false
-i7.MouseButton1Click:Connect(function()
-	min = not min
-	if min then
-		i2.Visible=false 
-		i1.Size=u2(0,200,0,22) 
-	else
-		i1.Size=u2(0,200,0,300) 
-		i2.Visible=true 
-	end
-end)
-local function btn(txt, f)
-	local i1=i("TextButton") 
-	i1.AutomaticSize=e.AutomaticSize.Y 
-	i1.BackgroundTransparency=1 
-	i1.Size=u2(1,0,0,0) 
-	i1.Name=rs() 
-	i1.Font=e.Font.SourceSans 
-	i1.FontSize=e.FontSize.Size14 
-	i1.Text=txt 
-	i1.TextColor3=c3(0.0941177,0.317647,0.878431) 
-	if f then 
-		i1.MouseButton1Click:Connect(f) 
-	end 
-	i1.Parent=i3 
-	return i3
-end
-local function lbl(txt)
-	local i1=i("TextLabel") 
-	i1.Font=e.Font.SourceSans 
-	i1.FontSize=e.FontSize.Size14 
-	i1.Text=txt 
-	i1.TextColor3=c3(0.560784,0.560784,0.560784) 
-	i1.AutomaticSize=e.AutomaticSize.Y 
-	i1.BackgroundTransparency=1 
-	i1.Size=u2(1,0,0,0) 
-	i1.Name=rs() 
-	i1.Parent=i3 
-	return i1
-end
 
-lbl("by MyWorld")
-lbl("low effort ui obviously")--]]
 
 local allowshiftlock=nil
 local ctrltp=nil
-local discharscripts=nil
-local removebparts=nil
+local simrad=true
+local placeholders=nil
+local clickfling=nil
 
+local stopreanimate=function() return nil end
 local function reanimate()
 	--[[
 	    FDless reanimate by MyWorld
 	    aka no client sided instances
-	    damn this shit is op for its times
 	    "what else do i optimize here"
 	]]
 
-	local reclaim = false --if you lost control over a part this will move your primary part to the part so you get it back
 	local novoid = true --prevents parts from going under workspace.FallenPartsDestroyHeight if you control them
+	local placeholders = false --makes client sided accessories replacing the real ones when unavailable
+	local speedlimit = 3000 --makes your parts move slower if the magnitude of their velocity is higher than this
 	local antiragdoll = true --removes instances that are usually used for ragdolling form your character
 	local addPartsOnRun = false --allows u to add more parts and joints to the simulation after it started
-	local discharscripts = discharscripts --disables all localScripts parented to your character before reanimation
-	local removebparts = removebparts --removes the parts that you cannot control in your character by making them fall to void
 	local R15toR6 = true --adds fake r6 parts and joints for animations if your character is r15
-	local walkSpeed = 20 --your walkspeed (can be changed at runtime)
+	local walkSpeed = 16 --your walkspeed (can be changed at runtime)
 	local jumpPower = 50 --your jump power (can be changed at runtime)
-	local allowshiftlock = allowshiftlock --allows the user to use shiftlock (can be changed at runtime)
+	local allowshiftlock = true --allows the user to use shiftlock (can be changed at runtime)
 	local gravity = 196.2 --how fast the characters velocity increases while falling (can be changed at runtime)
-	local simrad = simrad --sets simulation radius to this with sethiddenproperty if its set to a number
-	local ctrlclicktp = ctrltp --makes you teleport where u point ur mouse cursor at when click and hold ctrl down
+	local simrad = 1000 --sets simulation radius to this with sethiddenproperty if its set to a number
+	local ctrlclicktp = true --makes you teleport where u point ur mouse cursor at when click and hold ctrl down
+	local clickfling = true --makes you fling the person you clicked when its available to do so
+	local flingvel = v3(16000,16000,16000) --the rotation velocity that ur character will have while flinging
 
 	local c=lp.Character
-	if not c then return end
-	if not c:IsDescendantOf(ws) then return end
-	
-	if stopreanimate() then
-		return
-	end
-	
+	if stopreanimate() or not (c and c:IsDescendantOf(ws)) then return end
+
 	local hum=c:FindFirstChildOfClass("Humanoid")
 	local rootpart=gp(c,"HumanoidRootPart","BasePart") or gp(c,"Torso","BasePart") or gp(c,"UpperTorso","BasePart") or (hum and hum.RootPart) or timegp(c,"HumanoidRootPart","BasePart",0.5) or c:FindFirstChildWhichIsA("BasePart")
 	if not rootpart then return end
@@ -355,7 +246,7 @@ local function reanimate()
 
 	local fpdh=ws.FallenPartsDestroyHeight
 	novoid=novoid and (fpdh+1)
-	
+
 	local function getMeshOfPart(v)
 		if typeof(v)=="Instance" then
 			if v:IsA("MeshPart") then
@@ -369,7 +260,7 @@ local function reanimate()
 		end
 		return nil, nil
 	end
-	
+
 	local joints={}
 	local cframes={}
 	local des=c:GetDescendants()
@@ -387,7 +278,7 @@ local function reanimate()
 			cframes[v]=v.CFrame
 		end
 	end
-	
+
 	local function makeplaceholder(v)
 		if typeof(v)~="Instance" then
 			return nil
@@ -413,7 +304,7 @@ local function reanimate()
 		v.Parent=ws
 		return v
 	end
-	
+
 	local function filterInstance(v)
 		local ins=v
 		if isClientInstance(v) then
@@ -458,7 +349,7 @@ local function reanimate()
 		v.Part0=filterInstance(v.Part0)
 		v.Part1=filterInstance(v.Part1)
 	end
-	
+
 	local Yvel=0
 	local cfr=rootpart.CFrame
 	local pos=cfr.Position
@@ -579,7 +470,7 @@ local function reanimate()
 		makejoint(R6parts.rightLeg,"RightUpperLeg","LowerTorso")
 		makejoint(R6parts.torso,"LowerTorso","HumanoidRootPart")
 	end
-		
+
 	local function getPart(name,blacklist)
 		for i,v in pairs(cframes) do
 			if (i.Name==name) and not (blacklist and tfind(blacklist,i)) then
@@ -632,16 +523,18 @@ local function reanimate()
 		{meshid="12867814848",textureid="12867873138",C0=angles(rad(0),rad(-90),rad(0)),Name="Right Leg"}
 	}
 
+	local alignblacklist={}
 	for i=1,#accessorylimbs do
 		local v=accessorylimbs[i]
 		local p=getPart(v.Name)
-		local h=getPartFromMesh(v.meshid,v.textureid)
+		local h=getPartFromMesh(v.meshid,v.textureid,alignblacklist)
 		local w=getPartJoint(h)
 		if p and w then
 			w.C0=v.C0
 			w.Part0=h
 			w.C1=cf_0
 			w.Part1=p
+			tinsert(alignblacklist,h)
 		end
 	end
 
@@ -651,37 +544,112 @@ local function reanimate()
 	local rayfilter={}
 	local characters={}
 	local function refreshrayfilter()
-		for i=1,#rayfilter do
-			rayfilter[i]=nil
-		end
-		local len=0
+		tclear(rayfilter)
 		for i,v in pairs(characters) do
-			len=len+1
-			rayfilter[len]=v
+			tinsert(rayfilter,v)
 		end
 		raycastparams.FilterDescendantsInstances=rayfilter
 	end
-
-
+	local flingtarget=nil
+	local cframes1={}
+	local lastpositions={}
+	local rootparts={}
 	local function onplayer(v)
-		characters[v]=v.Character
-		v:GetPropertyChangedSignal("Character"):Connect(function()
-			characters[v]=v.Character
-			refreshrayfilter()
-		end)
-		refreshrayfilter()
+		local lastc=nil
+		local function oncharacter()
+			local newc=v.Character
+			if newc and (newc ~= lastc) then
+				lastc=newc
+				characters[v]=newc
+				refreshrayfilter()
+				local hrp=loopgp(newc,"HumanoidRootPart","BasePart")
+				if v~=lp then
+					rootparts[v]=hrp
+				end
+				twait()
+				if c and (v==lp) and hrp and (hrp.Parent==newc) and newc:IsDescendantOf(ws) then
+					local startpos=pos+v3(mrandom(-32,32),0,mrandom(-32,32))
+					local dir=nil
+					local poscheck=true
+					while poscheck do
+						poscheck=false
+						for i,v in pairs(rootparts) do
+							local diff=(startpos-v.Position)*v3_101
+							if diff.Magnitude<10 then
+								poscheck=true
+								dir=dir or diff.Unit
+								startpos=startpos+dir
+							end
+						end
+						local diff=(startpos-pos)*v3_101
+						if diff.Magnitude<10 then
+							poscheck=true
+							dir=dir or diff.Unit
+							startpos=startpos+dir
+						end
+					end
+					startpos=cfr+startpos-cfr.Position
+					if flingtarget then
+						local con=heartbeat:Connect(function()
+							local idleoff=v3(sin((sine-0.0375)*16),sin(sine*16),sin((sine+0.075)*16))
+
+							hrp.CFrame=flingtarget.CFrame+flingtarget.Velocity*(sin(sine*15)+1)+v3(0,-2,0)+idleoff*0.001
+							hrp.Velocity=idleoff
+							hrp.RotVelocity=flingvel+idleoff
+						end)
+						twait(0.5)
+						con:Disconnect()
+						flingtarget=nil
+					end
+					tspawn(function()
+						local con=heartbeat:Connect(function()
+							hrp.CFrame=startpos+v3(sin((sine-0.0375)*16),sin(sine*16),sin((sine+0.075)*16))*0.005
+							hrp.Velocity=v3_0
+							hrp.RotVelocity=v3_0
+						end)
+						twait(0.3)
+						con:Disconnect()
+						if newc:IsDescendantOf(ws) then
+							tclear(cframes1)
+							tclear(lastpositions)
+							newc.HumanoidRootPart.Died.Volume = 0
+							newc:BreakJoints()
+							twait(0.1)
+							local cd=newc:GetDescendants()
+							for i,v in pairs(cframes) do
+								if type(i)=="table" then 
+									local meshid=i.meshid
+									if meshid then
+										local textureid=i.textureid
+										for i1=1,#cd do
+											local v=cd[i1]
+											if v and v:IsA("BasePart") then
+												local meshid1,textureid1=getMeshOfPart(v)
+												if (meshid1==meshid) and (textureid1==textureid) then
+													cd[i1]=nil
+													cframes1[v]=i
+													lastpositions[v]=v.Position
+													break
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end)
+				end
+			end
+		end
+		v:GetPropertyChangedSignal("Character"):Connect(oncharacter)
+		oncharacter()
 	end
-
-game:GetService("StarterGui"):SetCore("SendNotification", { 
-	Title = "Badge Awarded";
-	Text = "You won Awesomeboy74001's ''Birb.'' award!";
-	Icon = "rbxthumb://type=Asset&id=8994600311&w=150&h=150"})
-
 	local plrst=plrs:GetPlayers()
 	for i=1,#plrst do onplayer(plrst[i]) end
 	plrs.PlayerAdded:Connect(onplayer)
 	plrs.PlayerRemoving:Connect(function(v)
 		characters[v]=nil
+		rootparts[v]=nil
 	end)
 
 	local mradN05=rad(-0.5)
@@ -764,79 +732,12 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 		end
 	end)
 
-	local lostPart=nil
-	local flingcf=nil
-	local flingvel=nil
-	local flingid=0
-	local currentflingpart=nil
 	local function fling(target,duration,rotVelocity)
-		currentflingpart=nil
-		for i,v in pairs(flingparts) do
-			if v and (not v.Anchored) and v:IsDescendantOf(ws) and (v.ReceiveAge == 0) then
-				currentflingpart=v
-				break
-			end
-		end
-		if not currentflingpart then 
-			return twait() and false
-		end
-		if typeof(target)=="Instance" then
-			if target:IsA("BasePart") then
-				target=target.Position
-			elseif target:IsA("Model") then
-				target=gp(target,"HumanoidRootPart","BasePart") or gp(target,"Torso","BasePart") or gp(target,"UpperTorso","BasePart") or target:FindFirstChildWhichIsA("BasePart")
-				if target then
-					target=target.Position
-				else
-					return twait() and false
-				end
-			elseif target:IsA("Humanoid") then
-				target=target.Parent
-				if not (target and target:IsA("Model")) then
-					return twait() and false
-				end
-				target=gp(target,"HumanoidRootPart","BasePart") or gp(target,"Torso","BasePart") or gp(target,"UpperTorso","BasePart") or target:FindFirstChildWhichIsA("BasePart")
-				if target then
-					target=target.Position
-				else
-					return twait() and false
-				end
-			else
-				return twait() and false
-			end
-		elseif typeof(target)=="CFrame" then
-			target=target.Position
-		elseif typeof(target)~="Vector3" then
-			target=mouse.Hit
-			if target then
-				target=target.Position
-			else
-				return twait() and false
-			end
-		end
-		if type(duration)~="number" then
-			duration=tonumber(duration) or 0.5
-		end
-		if typeof(rotVelocity)~="Vector3" then
-			rotVelocity=defaultflingvel
-		end
-		if (type(maxflingtrsp)=="number") and (currentflingpart.Transparency>maxflingtrsp) then
-			currentflingpart.Transparency=maxflingtrsp
-		end
-		flingcf=cf(target)
-		flingvel=rotVelocity
-		flingid=flingid+1
-		local thisfling=flingid
-		twait(duration)
-		if flingid==thisfling then
-			flingcf=nil
-			currentflingpart=nil
-		end
-		return true
+		twait()
+		return true --maybe later
 	end
 
-	local pflingid=0
-	local function predictionfling(target,duration,rotVelocity,stopOnVelMag)
+	local function predictionfling(target)
 		if typeof(target)~="Instance" then 
 			target=mouse.Target
 			if not target then
@@ -856,26 +757,7 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 		if not (target and target:IsDescendantOf(ws)) then
 			return twait() and false
 		end
-		if stopOnVelMag then
-			duration=tonumber(duration) or 5
-			stopOnVelMag=tonumber(stopOnVelMag) or 1000
-		elseif type(stopOnVelMag)=="boolean" then
-			duration=tonumber(duration) or 1
-			stopOnVelMag=nil
-		else 
-			duration=tonumber(duration) or 5
-			stopOnVelMag=1000
-		end
-		local stopTime=sine+duration
-		pflingid=pflingid+1
-		local thisfling=pflingid
-		local con=nil
-		con=heartbeat:Connect(function(deltaTime)
-			if (thisfling~=pflingid) or (sine>stopTime) or (stopOnVelMag and (target.Velocity.Magnitude>stopOnVelMag)) or (not (target and target:IsDescendantOf(ws))) then
-				return con:Disconnect()
-			end
-			fling(target.Position+target.Velocity*(sin(sine*15)+1),0,rotVelocity)
-		end)
+		flingtarget=target
 		twait()
 		return true
 	end
@@ -883,43 +765,17 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 	if ctrlclicktp then
 		ctrlclicktp=e.KeyCode.LeftControl
 		local tpoff=v3_010*3
-		if clickfling==0 then
+		if clickfling then
 			mouse.Button1Down:Connect(function()
-				if uis:IsKeyDown(ctrlclicktp) then
-					if mouse.Target then
+				if mouse.Target then
+					if uis:IsKeyDown(ctrlclicktp) then
 						pos=mouse.Hit.Position+tpoff
 						cfr=cf(pos,pos+camoff.LookVector*v3_101)
 						xzvel=v3_0
 						Yvel=0
+					else
+						predictionfling()
 					end
-				else
-					fling()
-				end
-			end)
-		elseif clickfling==1 then
-			mouse.Button1Down:Connect(function()
-				if uis:IsKeyDown(ctrlclicktp) then
-					if mouse.Target then
-						pos=mouse.Hit.Position+tpoff
-						cfr=cf(pos,pos+camoff.LookVector*v3_101)
-						xzvel=v3_0
-						Yvel=0
-					end
-				else
-					predictionfling()
-				end
-			end)
-		elseif clickfling == 2 then
-			mouse.Button1Down:Connect(function()
-				if uis:IsKeyDown(ctrlclicktp) then
-					if mouse.Target then
-						pos=mouse.Hit.Position+tpoff
-						cfr=cf(pos,pos+camoff.LookVector*v3_101)
-						xzvel=v3_0
-						Yvel=0
-					end
-				elseif not predictionfling() then
-					fling()
 				end
 			end)
 		else
@@ -932,16 +788,8 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 				end
 			end)
 		end
-	else
-		if clickfling==0 then
-			mouse.Button1Down:Connect(fling)
-		elseif clickfling==1 then
-			mouse.Button1Down:Connect(predictionfling)
-		elseif clickfling==2 then
-			mouse.Button1Down:Connect(function()
-				if not predictionfling() then fling() end
-			end)
-		end
+	elseif clickfling then
+		mouse.Button1Down:Connect(predictionfling)
 	end
 
 	local noYvelTime=1
@@ -950,6 +798,12 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 	local con=nil
 	local function mainFunction()
 		if not c then 
+			for i,v in pairs(cframes) do
+				local p=i.placeholder
+				if p then
+					p:Destroy()
+				end
+			end
 			uis.MouseBehavior=enumMD
 			onnewcamera()
 			local c=lp.Character
@@ -968,23 +822,26 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 			if allowshiftlock then
 				uis.MouseBehavior=enumMLC
 				local rotation=uis:GetMouseDelta()*mradN05
-				camoff=cf(camoff.Position,camoff.Position+camoff.LookVector)*angles(rotation.Y,rotation.X,0)
+				local camoffpos=camoff.Position
+				camoff=cf(camoffpos,camoffpos+camoff.LookVector)*angles(rotation.Y,rotation.X,0)
 			else
 				shiftlock=false
 			end
 		elseif firstperson then
 			uis.MouseBehavior=enumMLC
 			local rotation=uis:GetMouseDelta()*mradN05
-			camoff=cf(camoff.Position,camoff.Position+camoff.LookVector)*angles(rotation.Y,rotation.X,0)
+			local camoffpos=camoff.Position
+			camoff=cf(camoffpos,camoffpos+camoff.LookVector)*angles(rotation.Y,rotation.X,0)
 		elseif uis:IsMouseButtonPressed(enumMB2) then
 			uis.MouseBehavior=enumMLCP
 			local rotation=uis:GetMouseDelta()*mradN05
-			camoff=cf(camoff.Position,camoff.Position+camoff.LookVector)*angles(rotation.Y,rotation.X,0)
+			local camoffpos=camoff.Position
+			camoff=cf(camoffpos,camoffpos+camoff.LookVector)*angles(rotation.Y,rotation.X,0)
 		else
 			uis.MouseBehavior=enumMD
 		end
 
-		local raycastresult=ws:Raycast(pos,v3_010*fpdh-pos,raycastparams)
+		local raycastresult=ws:Raycast(pos,v3_010*(fpdh-pos.Y),raycastparams)
 		local onground=nil
 		if raycastresult then
 			raycastresult=raycastresult.Position
@@ -1067,43 +924,48 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 			xzvel=xzvel*(1-noYvelTime)
 		end
 
-		local idleoff=v3(sin((sine-0.01875)*32),sin(sine*32),sin((sine+0.0375)*32))*0.001		
-		local idlerv=v3_010*sin(sine*32)
+		local idlerv=v3(sin((sine-0.0375)*16),sin(sine*16),sin((sine+0.075)*16))
+		local idleoff=idlerv*0.001
 
 		for i,v in pairs(cframes) do
+			local p=i.placeholder
+			if p then
+				if p.Parent~=ws then
+					p.Parent=ws
+				end
+				p.CFrame=v
+			end
+		end
+		for i,v in pairs(cframes1) do
 			if (not i.Anchored) and i:IsDescendantOf(ws) then
 				if i.ReceiveAge==0 then
-					if (i==currentflingpart) and flingcf then
-						flingcf=flingcf*angles(0,flingvel.Unit.Y*-deltaTime,0)
-						v=flingcf
-						i.RotVelocity=flingvel+idlerv
-					else
-						i.RotVelocity=idlerv
+					local p=v.placeholder
+					if p and p.Parent then
+						p.Parent=nil
 					end
-					local vel=(v.Position-lastpositions[i])/delta
+					v=cframes[v]
+					local lastpos=lastpositions[i]
+					local vel=(v.Position-lastpos)/delta
+					if vel.Magnitude>speedlimit then
+						vel=vel.Unit*speedlimit
+						v=v+(lastpos+vel*delta)-v.Position
+					end
 					lastpositions[i]=v.Position
 					if vel.Magnitude<0.15 then
 						v=v+idleoff
 					end
-					if (i==reclaim) and lostPart then
-						v=lostPart.CFrame
-						lostPart=nil
-						i.Velocity=v3_0
-					else
-						i.Velocity=getNetlessVelocity(vel*noYvelTime+xzvel)
-					end
 					if novoid and (v.Y<novoid) then
 						v=v+v3_010*(novoid-v.Y)
 					end
+					i.Velocity=getNetlessVelocity(vel*noYvelTime+xzvel)
 					i.CFrame=v
+					i.RotVelocity=idlerv
 				else
 					lastpositions[i]=i.Position
-					if reclaim and (i~=reclaim) then
-						lostPart=i
-					end
 				end
 			end
 		end
+
 		if simrad then
 			shp(lp,"SimulationRadius",simrad)
 		end
@@ -1111,6 +973,15 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 
 	con=heartbeat:Connect(mainFunction)
 	mainFunction()
+
+	stopreanimate=function()
+		if c then
+			c=nil
+			return true
+		else
+			return false
+		end
+	end
 
 	local legcfR=cf(1,-1,0)
 	local legcfL=cf(-1,-1,0)
@@ -1128,7 +999,7 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 	end
 
 	local lastvel=v3_0
-	local velchg1=vf3_0
+	local velchg1=v3_0
 	local function velchgbycfrvec() --this returns 2 values: forward/backwards velocity change, right/left velocity change
 		velchg1=velchg1+(lastvel-xzvel) --i recommend setting velchg1 to v3_0 when u start using this function or it will look worse
 		lastvel=xzvel
@@ -1143,7 +1014,29 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 		cfr=cfr:Lerp(cf(pos,v3(mpos.X,pos.Y,mpos.Z)),alpha or deltaTime)
 	end
 
+	local function setWalkSpeed(n)
+		if type(n) ~= "number" then
+			n=16
+		end
+		walkSpeed=n
+	end
+	local function setJumpPower(n)
+		if type(n) ~= "number" then
+			n=50
+		end
+		jumpPower=n
+	end
+	local function setGravity(n)
+		if type(n) ~= "number" then
+			n=196.2
+		end
+		gravity=n
+	end
+
 	return {
+		cframes=cframes,
+		joints=joints,
+		refreshjoints=refreshjoints,
 		raycastlegs=raycastlegs,
 		velbycfrvec=velbycfrvec,
 		velchgbycfrvec=velchgbycfrvec,
@@ -1152,9 +1045,13 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 		getPartFromMesh=getPartFromMesh,
 		getJoint=getJoint,
 		getPartJoint=getPartJoint,
-		rotToMouse=rotToMouse
+		rotToMouse=rotToMouse,
+		setWalkSpeed=setWalkSpeed,
+		setJumpPower=setJumpPower,
+		setGravity=setGravity
 	}
 end
+
 
 local t=reanimate()
 if type(t)~="table" then return end
