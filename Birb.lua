@@ -1066,6 +1066,32 @@ local LeftShoulder=getJoint("Left Shoulder")
 local RightHip=getJoint("Right Hip")
 local LeftHip=getJoint("Left Hip")
 local Neck=getJoint("Neck")
+
+--//Reset Button
+local resetBind = Instance.new("BindableEvent")
+local isButtonChanged = false
+local originalConnection
+
+local function resetButtonFunction()
+    game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+end
+
+local function onResetButtonClicked()
+    if not isButtonChanged then        
+        stopreanimate()
+        isButtonChanged = true
+        originalConnection:Disconnect() 
+    else        
+        game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+    end
+end
+
+resetBind.Event:Connect(onResetButtonClicked)
+originalConnection = resetBind.Event:Connect(resetButtonFunction) 
+
+game:GetService("StarterGui"):SetCore("ResetButtonCallback", resetBind)
+--//
+
 addmode("default", {
 	idle = function()
 		local rY, lY = raycastlegs()
